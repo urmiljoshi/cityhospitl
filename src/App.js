@@ -10,17 +10,21 @@ import Departments from './conteinars/Departments/Departments';
 import Doctors from './conteinars/Doctors/Doctors';
 import { Route, Switch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Loading from './conteinars/Hoc/Loading';
+
+const HWL = Loading(Home)
 
 function App() {
 
-  const [toloding,setToloding] =useState(false)
-  const [data,setData] = useState([])
+
+  const [loding,setloding] = useState(false)
+  
 
 
   const orgDate =[
     {
       id:-202,
-      name:-'price'
+      name:-'prince'
     },
     {
       id:-101,
@@ -29,14 +33,18 @@ function App() {
   ]
 
   useEffect(() =>{
-    setToloding(true)
-    setTimeout(() => {setToloding(false);setData(orgDate)},2000)
+    setloding(true)
+    setTimeout(() => {setloding(false)},2000)
     
   },[])
 
-  console.log(toloding,data);
+  console.log(loding);
   return (
+    
     <div>
+      <HWL
+            loading = {loding}
+      />  
       {/* <Headar />
       <Switch>
         <Route exact path={"/"} component={Home}/>
