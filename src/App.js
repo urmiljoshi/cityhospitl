@@ -11,41 +11,41 @@ import Doctors from './conteinars/Doctors/Doctors';
 import { Route, Switch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Loading from './conteinars/Hoc/Loading';
+import Auth from './conteinars/Auth/Auth';
 
-const HWL = Loading(Home)
+// const HWL = Loading(Home)
+ function App() {
 
-function App() {
 
-
-  const [loding,setloding] = useState(false)
+//  const [loding,setloding] = useState(false)
   
 
 
-  const orgDate =[
-    {
-      id:-202,
-      name:-'prince'
-    },
-    {
-      id:-101,
-      name:-'nishid'
-    }
-  ]
+//   const orgDate =[
+//     {
+//       id:-202,
+//       name:-'prince'
+//     },
+//     {
+//       id:-101,
+//       name:-'nishid'
+//     }
+//   ]
 
-  useEffect(() =>{
-    setloding(true)
-    setTimeout(() => {setloding(false)},2000)
+//   useEffect(() =>{
+//     setloding(true)
+//     setTimeout(() => {setloding(false)},2000)
     
-  },[])
+//   },[])
 
-  console.log(loding);
+  // console.log(loding);
   return (
     
     <div>
-      <HWL
+      {/* <HWL
             loading = {loding}
-      />  
-      {/* <Headar />
+      />   */}
+      <Headar />
       <Switch>
         <Route exact path={"/"} component={Home}/>
         <Route exact path={"/Departments"} component={Departments}/>
@@ -53,8 +53,9 @@ function App() {
         <Route exact path={"/Doctors"} component={Doctors}/>
         <Route exact path={"/Contact"} component={Contact}/>
         <Route exact path={"/Appointment"} component={Appointment}/>
+        <Route exact path={"/Auth"} component={Auth}/>
         </Switch>
-      <Footer /> */}
+      <Footer />
     </div>
   );
 }
