@@ -12,6 +12,7 @@ import { Route, Switch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Loading from './conteinars/Hoc/Loading';
 import Auth from './conteinars/Auth/Auth';
+import Medicine from './conteinars/Medicine/Medicine';
 
 // const HWL = Loading(Home)
  function App() {
@@ -49,6 +50,7 @@ import Auth from './conteinars/Auth/Auth';
       <Switch>
         <Route exact path={"/"} component={Home}/>
         <Route exact path={"/Departments"} component={Departments}/>
+        <Route exact path={"/Medicine"} component={Medicine}/>
         <Route exact path={"/about"} component={About}/>
         <Route exact path={"/Doctors"} component={Doctors}/>
         <Route exact path={"/Contact"} component={Contact}/>
