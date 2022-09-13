@@ -23,19 +23,19 @@ function Auth(props) {
 
     let authschema;
     let schema = yup.object().shape(authschema);
-    if (userType === 'singup' && 'reset') {
+    if (userType === 'singup' && reset === false) {
         authschema = {
             name: yup.string().required("please Enter your name"),
             email: yup.string().required("please Enter valid email").email("please Enter email"),
             pssword: yup.string().required("Enter your pssword").min(8)
         }
 
-    } else if (userType === 'login') {
+    } else if (userType === 'login'&& reset === false) {
         authschema = {
             email: yup.string().required("please Enter valid email").email("please Enter email"),
             pssword: yup.string().required("Enter your pssword").min(8),
         }
-    } else if (userType === 'true') {
+    } else if (reset === true) {
         authschema = {
             email: yup.string().required("please Enter valid email").email("please Enter email"),
         }
