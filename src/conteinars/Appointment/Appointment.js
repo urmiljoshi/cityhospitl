@@ -1,6 +1,38 @@
 import React from 'react';
+import * as yup from 'yup';
+import { Form, Formik, useFormik } from 'formik';
 
 function Appointment(props) {
+    let Appointmentschema ,int;
+
+    Appointmentschema ={
+        name: yup.string().required("please Enter your name"),
+        email: yup.string().required("please Enter valid email").email("please Enter email"),
+        phone: yup.string().required("Enter Your Phone Number"),
+        appointment_date: yup.string().required("Please Enter Your appointment_date "),
+        department: yup.string().required("Select your department"),
+        message: yup.string().required("Enter Your message"),
+    }
+    int  = {
+        name:'',
+        email:'',
+        phone:'',
+        appointment_date:'',
+        department:'',
+        message:'',
+    }
+    let schema = yup.object().shape(Appointmentschema);
+
+    const formik = useFormik({
+        initialValues: int,
+        validationSchema: schema,
+        onSubmit: values => {
+            console.log(values);
+        },
+    });
+
+    const { handleChange, errors, handleSubmit } = formik;
+
     return (
         <div>
             <section id="appointment" className="appointment">
@@ -11,24 +43,60 @@ function Appointment(props) {
                             blandit quam volutpat sollicitudin. Fusce tincidunt sit amet ex in volutpat. Donec lacinia finibus tortor.
                             Curabitur luctus eleifend odio. Phasellus placerat mi et suscipit pulvinar.</p>
                     </div>
-                    <form action method="post" role="form" className="php-email-form">
+                    <Formik>
+                    <Form action method="post" role="form" className="php-email-form">
                         <div className="row">
                             <div className="col-md-4 form-group">
-                                <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                <input 
+                                type="text"
+                                 name="name"
+                                  className="form-control" id="name" 
+                                  placeholder="Your Name"
+                                   data-rule="minlen:4"
+                                    data-msg="Please enter at least 4 chars" 
+                                    onChange={handleChange}
+                                    />
+                                    <p>{errors.name}</p>
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3 mt-md-0">
-                                <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                                <input
+                                 type="email"
+                                  className="form-control"
+                                   name="email" id="email"
+                                    placeholder="Your Email"
+                                     data-rule="email"
+                                      data-msg="Please enter a valid email"
+                                      onChange={handleChange}
+                                      />
+                                      <p>{errors.email}</p>
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3 mt-md-0">
-                                <input type="tel" className="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                <input
+                                 type="tel"
+                                  className="form-control"
+                                   name="phone" id="phone"
+                                    placeholder="Your Phone"
+                                     data-rule="minlen:4" 
+                                     data-msg="Please enter at least 4 chars"
+                                     onChange={handleChange}
+                                     />
+                                     <p>{errors.phone}</p>
                                 <div className="validate" />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-4 form-group mt-3">
-                                <input type="datetime" name="date" className="form-control datepicker" id="date" placeholder="Appointment Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                <input
+                                 type="datetime"
+                                  name="date"
+                                   className="form-control datepicker" id="date"
+                                    placeholder="Appointment Date" 
+                                    data-rule="minlen:4" data-msg="Please enter at least 4 chars"
+                                    onChange={handleChange}
+                                    />
+                                    <p>{errors.appointment_date}</p>
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3">
@@ -42,7 +110,14 @@ function Appointment(props) {
                             </div>
                         </div>
                         <div className="form-group mt-3">
-                            <textarea className="form-control" name="message" rows={5} placeholder="Message (Optional)" defaultValue={""} />
+                            <textarea 
+                            className="form-control"
+                             name="message" rows={5}
+                              placeholder="Message (Optional)"
+                               defaultValue={""}
+                               onChange={handleChange}
+                               />
+                               <p>{errors.message}</p>
                             <div className="validate" />
                         </div>
                         <div className="mb-3">
@@ -51,7 +126,8 @@ function Appointment(props) {
                             <div className="sent-message">Your appointment request has been sent successfully. Thank you!</div>
                         </div>
                         <div className="text-center"><button type="submit">Make an Appointment</button></div>
-                    </form>
+                    </Form>
+                    </Formik>
                 </div>
             </section>
 

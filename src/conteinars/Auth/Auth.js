@@ -10,7 +10,7 @@ function Auth(props) {
     const emailRef = useRef();
     const passRef = useRef();
 
-    function handel() {
+    function handel() { 
         passRef.current.focus();
         passRef.current.style.border = "2px solid yellow"
         console.log(emailRef.current.value);
@@ -35,6 +35,8 @@ function Auth(props) {
             email: '',
             pssword: '',
         }
+
+        
 
     } else if (userType === 'Login' && reset === false) {
         authschema = {
