@@ -49,7 +49,7 @@ function Auth(props) {
         }
     } else if (reset === true) {
         authschema = {
-            email: yup.string().required("please Enter valid email").email("please Enter email"),
+            email: yup.string().required("please Enter  email").email("please Enter valid email"),
         }
         initval = {
             email: '',
@@ -67,7 +67,7 @@ function Auth(props) {
         },
     });
 
-    const { handleChange, errors, handleSubmit } = formik;
+    const { handleChange, errors, handleSubmit,touched,handleBlur } = formik;
 
     return (
         <section id="appointment" className="appointment">
@@ -87,7 +87,7 @@ function Auth(props) {
 
                 </div>
                 <Formik value={formik}>
-                    <Form className="php-email-form">
+                    <Form onSubmit={handleSubmit} className="php-email-form">
 
                         <div className="col-md-4 form-group">
                             {
@@ -104,11 +104,10 @@ function Auth(props) {
                                                 name="name"
                                                 className="form-control"
                                                 id="name" placeholder="Your Name"
-                                                data-rule="minlen:4"
-                                                data-msg="Please enter at least 4 chars"
+                                                onBlur={handleBlur}
                                                 onChange={handleChange}
                                             />
-                                            <p>{errors.name}</p>
+                                            <p>{errors.name && touched.name ? errors.name :'' }</p>
                                             <div className="validate" />
                                         </div>
                             }
@@ -123,9 +122,10 @@ function Auth(props) {
                                     className="form-control"
                                     name="email" id="email"
                                     placeholder="Your Email"
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
                                 />
-                                <p>{errors.email}</p>
+                                <p>{errors.email && touched.email ? errors.email :'' }</p>
                                 <div className="validate" />
                             </div>
 
@@ -141,11 +141,10 @@ function Auth(props) {
                                             className="form-control"
                                             name="pssword" id="pssword"
                                             placeholder="Your pssword"
-                                            data-rule="minlen:4"
-                                            data-msg="Please enter at least 4 chars"
+                                            onBlur={handleBlur}
                                             onChange={handleChange}
                                         />
-                                        <p>{errors.pssword}</p>
+                                        <p>{errors.pssword && touched.pssword ? errors.pssword :'' }</p>
                                         <div className="validate" />
                                     </div>
                                 </div>

@@ -9,7 +9,7 @@ function Appointment(props) {
         name: yup.string().required("please Enter your name"),
         email: yup.string().required("please Enter valid email").email("please Enter email"),
         phone: yup.string().required("Enter Your Phone Number"),
-        appointment_date: yup.string().required("Please Enter Your appointment_date "),
+        date: yup.string().required("Please Enter Your appointment_date "),
         department: yup.string().required("Select your department"),
         message: yup.string().required("Enter Your message"),
     }
@@ -17,7 +17,7 @@ function Appointment(props) {
         name:'',
         email:'',
         phone:'',
-        appointment_date:'',
+        date:'',
         department:'',
         message:'',
     }
@@ -31,7 +31,7 @@ function Appointment(props) {
         },
     });
 
-    const { handleChange, errors, handleSubmit } = formik;
+    const { handleChange, errors, handleSubmit,touched,handleBlur } = formik;
 
     return (
         <div>
@@ -44,7 +44,7 @@ function Appointment(props) {
                             Curabitur luctus eleifend odio. Phasellus placerat mi et suscipit pulvinar.</p>
                     </div>
                     <Formik>
-                    <Form action method="post" role="form" className="php-email-form">
+                    <Form onSubmit={handleSubmit}  action method="post" role="form" className="php-email-form">
                         <div className="row">
                             <div className="col-md-4 form-group">
                                 <input 
@@ -54,9 +54,10 @@ function Appointment(props) {
                                   placeholder="Your Name"
                                    data-rule="minlen:4"
                                     data-msg="Please enter at least 4 chars" 
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
                                     />
-                                    <p>{errors.name}</p>
+                                    <p>{errors.name && touched.name ?errors.name :''}</p>
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3 mt-md-0">
@@ -67,9 +68,10 @@ function Appointment(props) {
                                     placeholder="Your Email"
                                      data-rule="email"
                                       data-msg="Please enter a valid email"
+                                      onBlur={handleBlur}
                                       onChange={handleChange}
                                       />
-                                      <p>{errors.email}</p>
+                                    <p>{errors.email && touched.email ?errors.email :''}</p>
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3 mt-md-0">
@@ -80,9 +82,10 @@ function Appointment(props) {
                                     placeholder="Your Phone"
                                      data-rule="minlen:4" 
                                      data-msg="Please enter at least 4 chars"
+                                     onBlur={handleBlur}
                                      onChange={handleChange}
                                      />
-                                     <p>{errors.phone}</p>
+                                     <p>{errors.phone  && touched.phone ?errors.phone :''}</p>
                                 <div className="validate" />
                             </div>
                         </div>
@@ -93,19 +96,26 @@ function Appointment(props) {
                                   name="date"
                                    className="form-control datepicker" id="date"
                                     placeholder="Appointment Date" 
-                                    data-rule="minlen:4" data-msg="Please enter at least 4 chars"
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
                                     />
-                                    <p>{errors.appointment_date}</p>
+                                    <p>{errors.date  && touched.date ?errors.date :''}</p>
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3">
-                                <select name="department" id="department" className="form-select">
+                                <select 
+                                name="department"
+                                 id="department" 
+                                 className="form-select"
+                                 onBlur={handleBlur}
+                                 onChange={handleChange}
+                                 >
                                     <option value>Select Department</option>
                                     <option value="Department 1">Department 1</option>
                                     <option value="Department 2">Department 2</option>
                                     <option value="Department 3">Department 3</option>
                                 </select>
+                                <p>{errors.department  && touched.department ?errors.department :''}</p>
                                 <div className="validate" />
                             </div>
                         </div>
@@ -115,9 +125,10 @@ function Appointment(props) {
                              name="message" rows={5}
                               placeholder="Message (Optional)"
                                defaultValue={""}
+                               onBlur={handleBlur}
                                onChange={handleChange}
                                />
-                               <p>{errors.message}</p>
+                               <p>{errors.message  && touched.message?errors.message :''}</p>
                             <div className="validate" />
                         </div>
                         <div className="mb-3">
