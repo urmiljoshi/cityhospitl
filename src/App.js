@@ -13,6 +13,8 @@ import { useEffect, useState } from 'react';
 import Loading from './conteinars/Hoc/Loading';
 import Auth from './conteinars/Auth/Auth';
 import Medicine from './conteinars/Medicine/Medicine';
+import MedicinAdmin from './Admin/conteinars/MedicinAdmin';
+import Layout from './Admin/componets/Layout';
 
 // const HWL = Loading(Home)
  function App() {
@@ -46,7 +48,7 @@ import Medicine from './conteinars/Medicine/Medicine';
       {/* <HWL
             loading = {loding}
       />   */}
-      <Headar />
+      {/* <Headar />
       <Switch>
         <Route exact path={"/"} component={Home}/>
         <Route exact path={"/Departments"} component={Departments}/>
@@ -57,7 +59,12 @@ import Medicine from './conteinars/Medicine/Medicine';
         <Route exact path={"/Appointment"} component={Appointment}/>
         <Route exact path={"/Auth"} component={Auth}/>
         </Switch>
-      <Footer />
+      <Footer /> */}
+      <Layout>
+        <Switch>
+            <Route exact path={"MedicinAdmin"} component={MedicinAdmin}/>
+        </Switch>
+      </Layout>
     </div>
   );
 }
