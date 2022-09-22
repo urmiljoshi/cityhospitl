@@ -20,9 +20,19 @@ function MedicinAdmin(props) {
     setOpen(false);
   };
 
-  const handleadd= (values) => {
+  const handleadd = (values) => {
+    let localData = JSON.parse(localStorage.getItem("Medicin"))
+    let id = Math.floor(Math.random() * 1000);
+    let data = { id: id, ...values }
+    console.log(localData, data);
+    if (localData === null) {
+      localStorage.setItem("Medicin", JSON.stringify([data]))
+    } else {
+      localData.push(data);
+      localStorage.setItem("Medicin", JSON.stringify(localData))
+    }
     setOpen(false);
-    console.log(values);
+
     formik.resetForm();
   }
 
@@ -45,12 +55,12 @@ function MedicinAdmin(props) {
 
     onSubmit: values => {
       handleadd(values);
-     
+
     },
   });
 
   const { handleChange, handleSubmit, errors, touched, handleBlur } = formik;
-  
+
   console.log(errors, touched);
 
   return (

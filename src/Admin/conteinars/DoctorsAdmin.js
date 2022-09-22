@@ -22,10 +22,21 @@ function DoctorsAdmin(props) {
     };
 
     const handleadd= (values) => {
+        let localData = JSON.parse(localStorage.getItem("Doctor"))
+        let id = Math.floor(Math.random() * 1000);
+        let data = { id: id, ...values }
+        console.log(localData, data);
+        if (localData === null) {
+          localStorage.setItem("Doctor", JSON.stringify([data]))
+        } else {
+          localData.push(data);
+          localStorage.setItem("Doctor", JSON.stringify(localData))
+        }
         setOpen(false);
-        console.log(values);
+    
         formik.resetForm();
       }
+    
     
 
     let schema = yup.object().shape({
@@ -67,7 +78,7 @@ function DoctorsAdmin(props) {
                             <DialogContent>
 
                                 <TextField
-                                    autoFocus
+                                    
                                     margin="dense"
                                     id="name"
                                     name="name"
@@ -79,7 +90,7 @@ function DoctorsAdmin(props) {
                                 />
                                 <p>{errors.name && touched.name ? errors.name : ''}</p>
                                 <TextField
-                                    autoFocus
+                                    
                                     margin="dense"
                                     id="age"
                                     name="age"
