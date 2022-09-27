@@ -8,14 +8,44 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
+import { DataGrid } from '@mui/x-data-grid';
+import { useEffect, useState } from 'react';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 function MedicinAdmin(props) {
   const [open, setOpen] = React.useState(false);
+  const [dopen, setdOpen] = React.useState(false);
+  const [data, setData] = useState([]);
+  const [did, setdid] = React.useState(false)
+  const localDataFun = () => {
+    let localData = JSON.parse(localStorage.getItem("Medicin"));
+    setData(localData);
+  }
+  useEffect(() => {
+    localDataFun();
+  }, [])
 
   const handleClickOpen = () => {
     setOpen(true);
-  };
+  }
+   const handleDelete =(data) =>{
+      setdOpen(true)
+      setdid(data.id)
+   }
 
+  const handleDeleteData = () => {
+
+      let localData  = JSON.parse(localStorage.getItem("Medicin"))
+      let Ddata = localData.filter((l) => l.id !== did)
+
+        localStorage.setItem("Medicin",JSON.stringify(Ddata))
+        setData(Ddata)
+        setdOpen(false)
+
+      console.log(Ddata);
+   }
   const handleClose = () => {
     setOpen(false);
   };
@@ -59,6 +89,37 @@ function MedicinAdmin(props) {
     },
   });
 
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name', headerName: 'name', width: 130 },
+    { field: 'Price', headerName: 'Price', width: 130 },
+    {
+      field: 'Qnt',
+      headerName: 'Qntity',
+      type: 'number',
+      width: 90,
+    },
+    {
+      field: 'expiry',
+      headerName: 'expiry',
+      type: 'number',
+      width: 90,
+    },
+    {
+      field: '',
+      headerName: 'Action',
+      width: 90,
+      renderCell: (params) => (
+        <IconButton aria-label="delete" onClick={() => handleDelete(params.row)}>
+        <DeleteIcon />
+      </IconButton>
+      )
+    },
+  ];
+
+
+
+
   const { handleChange, handleSubmit, errors, touched, handleBlur } = formik;
 
   console.log(errors, touched);
@@ -71,6 +132,15 @@ function MedicinAdmin(props) {
         <Button variant="outlined" onClick={handleClickOpen}>
           MedicinAdmin
         </Button>
+        <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+            rows={data}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+          />
+        </div>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>MedicinAdmin</DialogTitle>
           <Formik values={formik}>
@@ -131,6 +201,13 @@ function MedicinAdmin(props) {
               </DialogContent>
             </Form>
           </Formik>
+        </Dialog>
+        <Dialog open={dopen} onClose={handleClose}>
+          <DialogTitle>Delete MedicinDate</DialogTitle>
+          <DialogActions>
+                  <Button onClick={handleClose}>No</Button>
+                  <Button onClick={() => handleDeleteData()}>Yes </Button>
+                </DialogActions>
         </Dialog>
       </div>
     </div>

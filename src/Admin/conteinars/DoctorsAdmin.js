@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -8,10 +8,26 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
+import { DataGrid } from '@mui/x-data-grid';
 
 
 function DoctorsAdmin(props) {
     const [open, setOpen] = React.useState(false);
+    const [data, setData] = useState([]);
+    const [dopen, setdOpen] = React.useState(false);
+    const [did, setdid] = React.useState(false)
+    const localDataFun = () => {
+        let localData = JSON.parse(localStorage.getItem("Doctor"));
+        console.log(localData);
+        setData(localData);
+    }
+    useEffect(() => {
+        localDataFun();
+    }, [])
+
+
+
+
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -21,23 +37,23 @@ function DoctorsAdmin(props) {
         setOpen(false);
     };
 
-    const handleadd= (values) => {
+    const handleadd = (values) => {
         let localData = JSON.parse(localStorage.getItem("Doctor"))
         let id = Math.floor(Math.random() * 1000);
         let data = { id: id, ...values }
         console.log(localData, data);
         if (localData === null) {
-          localStorage.setItem("Doctor", JSON.stringify([data]))
+            localStorage.setItem("Doctor", JSON.stringify([data]))
         } else {
-          localData.push(data);
-          localStorage.setItem("Doctor", JSON.stringify(localData))
+            localData.push(data);
+            localStorage.setItem("Doctor", JSON.stringify(localData))
         }
         setOpen(false);
-    
+
         formik.resetForm();
-      }
-    
-    
+    }
+
+
 
     let schema = yup.object().shape({
 
@@ -54,11 +70,18 @@ function DoctorsAdmin(props) {
         },
 
         onSubmit: values => {
-        handleadd  (values);
+            handleadd(values);
 
         },
     });
 
+
+
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'name', headerName: 'name', width: 130 },
+        { field: 'age', headerName: 'age', width: 130 },
+    ];
     const { handleChange, handleSubmit, errors, touched, handleBlur } = formik;
 
 
@@ -71,14 +94,23 @@ function DoctorsAdmin(props) {
                 <Button variant="outlined" onClick={handleClickOpen}>
                     Open form dialog
                 </Button>
+                <div style={{ height: 400, width: '100%' }}>
+                    <DataGrid
+                        rows={data}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        checkboxSelection
+                    />
+                </div>
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Subscribe</DialogTitle>
-                    <Formik  values={formik}>
-                        <Form  onSubmit={handleSubmit}>
+                    <Formik values={formik}>
+                        <Form onSubmit={handleSubmit}>
                             <DialogContent>
 
                                 <TextField
-                                    
+
                                     margin="dense"
                                     id="name"
                                     name="name"
@@ -90,7 +122,7 @@ function DoctorsAdmin(props) {
                                 />
                                 <p>{errors.name && touched.name ? errors.name : ''}</p>
                                 <TextField
-                                    
+
                                     margin="dense"
                                     id="age"
                                     name="age"
