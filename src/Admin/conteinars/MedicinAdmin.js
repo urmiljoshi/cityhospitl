@@ -24,7 +24,10 @@ function MedicinAdmin(props) {
   const [update , setUpdate] = useState()
   const localDataFun = () => {
     let localData = JSON.parse(localStorage.getItem("Medicin"));
-    setData(localData);
+    if (localData !== null) {
+      setData(localData);
+    }
+
   }
   useEffect(() => {
     localDataFun();
@@ -60,6 +63,8 @@ function MedicinAdmin(props) {
   }
   const handleClose = () => {
     setOpen(false);
+    setUpdate(false);
+    formik.resetForm(false);
   };
 
   const handleadd = (values) => {
@@ -74,6 +79,7 @@ function MedicinAdmin(props) {
       localStorage.setItem("Medicin", JSON.stringify(localData))
     }
     setOpen(false);
+    localDataFun();
 
     formik.resetForm();
   }
@@ -96,10 +102,32 @@ function MedicinAdmin(props) {
     },
 
     onSubmit: values => {
-      handleadd(values);
+
+      if (update) {
+        handleUpdateData(values);
+      }else{
+        handleadd(values);
+      }
+      
+
 
     },
   });
+
+  const handleUpdateData = (values) => {
+    const localData = JSON.parse(localStorage.getItem("Medicin"))
+    let uData = localData.map((l) =>{
+      if (l.id == values.id) {
+         return values
+      }else{
+         return l;
+      }
+    })
+
+     setData(uData);
+     localStorage.setItem("Medicin", JSON.stringify(uData));
+     handleClose();
+  }
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
