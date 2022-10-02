@@ -21,7 +21,8 @@ function MedicinAdmin(props) {
   const [dopen, setdOpen] = React.useState(false);
   const [data, setData] = useState([]);
   const [did, setdid] = React.useState(false)
-  const [update , setUpdate] = useState()
+  const [update, setUpdate] = useState()
+
   const localDataFun = () => {
     let localData = JSON.parse(localStorage.getItem("Medicin"));
     if (localData !== null) {
@@ -42,11 +43,11 @@ function MedicinAdmin(props) {
     setdOpen(true)
     setdid(data.id)
   }
-  
+
   const handleEdit = (data) => {
-    setOpen (true);
+    setOpen(true);
     console.log(data);
-    formik.setValues(data)   
+    formik.setValues(data)
     setUpdate(true);
   }
 
@@ -105,10 +106,10 @@ function MedicinAdmin(props) {
 
       if (update) {
         handleUpdateData(values);
-      }else{
+      } else {
         handleadd(values);
       }
-      
+
 
 
     },
@@ -116,17 +117,17 @@ function MedicinAdmin(props) {
 
   const handleUpdateData = (values) => {
     const localData = JSON.parse(localStorage.getItem("Medicin"))
-    let uData = localData.map((l) =>{
+    let uData = localData.map((l) => {
       if (l.id == values.id) {
-         return values
-      }else{
-         return l;
+        return values
+      } else {
+        return l;
       }
     })
 
-     setData(uData);
-     localStorage.setItem("Medicin", JSON.stringify(uData));
-     handleClose();
+    setData(uData);
+    localStorage.setItem("Medicin", JSON.stringify(uData));
+    handleClose();
   }
 
   const columns = [
@@ -165,7 +166,7 @@ function MedicinAdmin(props) {
 
 
 
-  const { handleChange, handleSubmit, errors, touched,values, handleBlur } = formik;
+  const { handleChange, handleSubmit, errors, touched, values, handleBlur } = formik;
 
   console.log(errors, touched);
 
@@ -245,7 +246,7 @@ function MedicinAdmin(props) {
                 <p>{errors.expiry && touched.expiry ? errors.expiry : ''}</p>
                 <DialogActions>
                   <Button onClick={handleClose}>Cancel</Button>
-                  <Button type='submit'>{update  ?   "Update"  :  "Add"}</Button>
+                  <Button type='submit'>{update ? "Update" : "Add"}</Button>
                 </DialogActions>
               </DialogContent>
             </Form>

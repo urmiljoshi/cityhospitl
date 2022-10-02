@@ -16,7 +16,7 @@ import Medicine from './conteinars/Medicine/Medicine';
 import MedicinAdmin from './Admin/conteinars/MedicinAdmin';
 import Layout from './Admin/componets/Layout';
 import DoctorsAdmin from './Admin/conteinars/DoctorsAdmin';
-
+import pesant from './conteinars/pesant/Pesant';
 // const HWL = Loading(Home)
  function App() {
 
@@ -65,6 +65,7 @@ import DoctorsAdmin from './Admin/conteinars/DoctorsAdmin';
         <Switch>
             <Route exact path={'/MedicinAdmin'} component={MedicinAdmin}/>
             <Route exact path={'/DoctorsAdmin'} component={DoctorsAdmin}/>
+            <Route exact path={'/pesant'} component={pesant}/>
         </Switch>
       </Layout>
     </div>

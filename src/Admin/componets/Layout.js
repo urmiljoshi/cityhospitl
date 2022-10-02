@@ -21,7 +21,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import { NavLink } from 'react-router-dom';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
-
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -103,7 +103,9 @@ export default function Layout({children}) {
 
     let MedicinAdmin = [
         { name : 'MedicinAdmin', icon :<MedicalServicesIcon/>, to :'/MedicinAdmin' },
-        { name : 'DoctorsAdmin', icon :<VaccinesIcon/>, to :'/DoctorsAdmin' }]
+        { name : 'DoctorsAdmin', icon :<VaccinesIcon/>, to :'/DoctorsAdmin' },
+        { name : 'Pesant', icon :<LocalHospitalIcon/>, to :'/Pesant' }
+      ]
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
