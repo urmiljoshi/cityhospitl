@@ -18,11 +18,8 @@ function Appointment(props) {
                 'please enter valid name'
             ),
         email: yup.string().required("please Enter valid email").email("please Enter email"),
-        phone: yup.string().required("please Enter your phone").matches(phoneRegExp, 'Phone number is not valid'),
-        date: yup.string().required("Please Enter Your appointment_date ")
-        .min(new Date('01-01-2019'))
-        .max(new Date())
-        .required(),
+        phone: yup.string().required("Please Enter Your Phone Number.").matches(phoneRegExp, 'Phone number is not valid').min(10, 'Enter min 10 digits').max(10, 'Enter max 10 digits'),
+        date: yup.string().required("Please Enter Date.").matches(/^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/, "Enter Date in Format."),
         department: yup.string().required("Select your department"),
         message:
             yup.string()
@@ -30,9 +27,11 @@ function Appointment(props) {
                 .max(50, 'maximum required 50 diget')
                 .required('pless enter messge'),
         Gender: yup.string().required("Please select Your gender"),
-        // :yup.string().required("Please select Your Hobby"),
         Hobby: yup.array().min(1).of(yup.string().required()).required(),
     }
+     const handleadd =(values) => {
+            console.log(values);
+     }
     int = {
         name: '',
         email: '',
@@ -49,7 +48,9 @@ function Appointment(props) {
         initialValues: int,
         validationSchema: schema,
         onSubmit: values => {
-            console.log(values);
+            handleadd(values);
+        
+            
         },
     });
 
