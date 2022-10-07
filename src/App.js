@@ -49,7 +49,7 @@ import pesant from './conteinars/pesant/Pesant';
       {/* <HWL
             loading = {loding}
       />   */}
-      {/* <Headar />
+      <Headar />
       <Switch>
         <Route exact path={"/"} component={Home}/>
         <Route exact path={"/Departments"} component={Departments}/>
@@ -60,14 +60,14 @@ import pesant from './conteinars/pesant/Pesant';
         <Route exact path={"/Appointment"} component={Appointment}/>
         <Route exact path={"/Auth"} component={Auth}/>
         </Switch>
-      <Footer /> */}
-      <Layout>
+      <Footer />
+      {/* <Layout>
         <Switch>
             <Route exact path={'/MedicinAdmin'} component={MedicinAdmin}/>
             <Route exact path={'/DoctorsAdmin'} component={DoctorsAdmin}/>
             <Route exact path={'/pesant'} component={pesant}/>
         </Switch>
-      </Layout>
+      </Layout> */}
     </div>
   );
 }
