@@ -29,10 +29,21 @@ function Appointment(props) {
         Gender: yup.string().required("Please select Your gender"),
         Hobby: yup.array().min(1).of(yup.string().required()).required(),
     }
-     const handleadd =(values) => {
-            console.log(values);
-     }
-    int = {
+    const handleadd = ()=> {
+        let localdata = JSON.parse(localStorage.getItem("apt"));
+        console.log(localdata);
+
+        if(localdata === null){
+            localStorage.setItem("apt", JSON.stringify([values]));
+        }else{
+            localdata.push(values);
+            localStorage.setItem("apt", JSON.stringify(localdata));
+        }
+        formik.resetForm();
+
+    }
+     
+    let int1 = {
         name: '',
         email: '',
         phone: '',
@@ -45,7 +56,7 @@ function Appointment(props) {
     let schema = yup.object().shape(Appointmentschema);
 
     const formik = useFormik({
-        initialValues: int,
+        initialValues: int1,
         validationSchema: schema,
         onSubmit: values => {
             handleadd(values);
@@ -56,7 +67,7 @@ function Appointment(props) {
 
     const { handleChange, errors, handleSubmit, touched, handleBlur, values } = formik;
 
-    console.log(errors);
+    
 
     return (
         <div>
@@ -172,22 +183,12 @@ function Appointment(props) {
                                 </>
                                 <p>{errors.Gender && touched.Gender ? <p>{errors.Gender}</p> : ''}</p>
                             </div>
-                            <div >
+                            <div  className="text-center">
                                 <>
                                 <label><b>Hobby:-</b></label><br />
-                                <input
-                                 type="checkbox" name="Hobby"
-                                  value={"cricket"}onBlur={handleBlur} onChange={handleChange} />
-                                <label>cricket</label>
-                                <br />
-                                <input type="checkbox" name="Hobby" value={"Traveling"} onBlur={handleBlur} onChange={handleChange}/>
-                                <label >Traveling</label>
-                                <br />
-                                <input type="checkbox" name="Hobby" value={"Reading"}onBlur={handleBlur} onChange={handleChange} />
-                                <label >Reading</label>
-                                <br />
-                                <input type="checkbox" name="Hobby" value={"Music"}onBlur={handleBlur} onChange={handleChange} />
-                                <label>Music</label>
+                                <input type="checkbox" name="Hobby" value={"Traveling"} onBlur={handleBlur} onChange={handleChange}/>Traveling
+                                <input type="checkbox" name="Hobby" value={"Reading"}onBlur={handleBlur} onChange={handleChange} />Reading
+                                <input type="checkbox" name="Hobby" value={"Music"}onBlur={handleBlur} onChange={handleChange} />Music
                                 </>
                                 <p>{errors.Hobby && touched.Hobby ? <p>{errors.Hobby}</p> : ''}</p>
                             </div>
@@ -203,10 +204,10 @@ function Appointment(props) {
             </section>
         </div>
     );
-}
 
 
 
+    }
 
 
 
