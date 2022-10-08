@@ -1,8 +1,10 @@
 import React from 'react';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
+import { useHistory } from 'react-router-dom';
 
 function Appointment(props) {
+    const history = useHistory();
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 
@@ -41,6 +43,7 @@ function Appointment(props) {
         }
         formik.resetForm();
 
+        history.push("/listappointment");
     }
      
     let int1 = {
