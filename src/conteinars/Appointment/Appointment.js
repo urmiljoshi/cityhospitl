@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 function Appointment(props) {
+    const [Update, setUpdate] = useState(false);
     const history = useHistory();
+
+
+
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
+    useEffect(() => {
+        console.log(props.location.state);
+
+        if (props.location.state !== null) {
+            console.log(props.location.state);
+            formik.setValues(props.location.state);
+            setUpdate(true);
+        }
+    }, [])
 
     let Appointmentschema, int;
 
@@ -31,21 +44,45 @@ function Appointment(props) {
         Gender: yup.string().required("Please select Your gender"),
         Hobby: yup.array().min(1).of(yup.string().required()).required(),
     }
-    const handleadd = ()=> {
+    const handleadd = () => {
         let localdata = JSON.parse(localStorage.getItem("apt"));
-        console.log(localdata);
 
-        if(localdata === null){
-            localStorage.setItem("apt", JSON.stringify([values]));
-        }else{
-            localdata.push(values);
+        let id = Math.floor(Math.random() * 1000);
+
+        if (localdata === null) {
+            localStorage.setItem("apt", JSON.stringify([{ "id": id, ...values }]));
+        } else {
+            localdata.push({ "id": id, ...values });
             localStorage.setItem("apt", JSON.stringify(localdata));
         }
         formik.resetForm();
 
-        history.push("/listappointment");
+        history.push("/Listappointment");
     }
-     
+
+    const UpdateData = (data) => {
+        console.log(data);
+
+        const localData = JSON.parse(localStorage.getItem("apt"));
+
+
+        let udata = localData.map((l) => {
+            if (l.id == data.id) {
+                return data;
+            } else {
+                return l;
+            }
+        })
+
+        localStorage.setItem("apt", JSON.stringify(udata));
+
+        history.replace();
+        setUpdate(false);
+        history.push("/Listappointment");
+
+    }
+
+
     let int1 = {
         name: '',
         email: '',
@@ -54,7 +91,7 @@ function Appointment(props) {
         department: '',
         message: '',
         Gender: '',
-        Hobby:'',
+        Hobby: [],
     }
     let schema = yup.object().shape(Appointmentschema);
 
@@ -62,15 +99,20 @@ function Appointment(props) {
         initialValues: int1,
         validationSchema: schema,
         onSubmit: values => {
-            handleadd(values);
-        
-            
+            if (Update) {
+                UpdateData(values);
+            } else {
+
+                handleadd(values);
+            }
+
+
         },
     });
 
     const { handleChange, errors, handleSubmit, touched, handleBlur, values } = formik;
 
-    
+
 
     return (
         <div>
@@ -85,6 +127,8 @@ function Appointment(props) {
                     <Formik>
                         <Form onSubmit={handleSubmit} action method="post" role="form" className="php-email-form">
                             <div className="row">
+                                <NavLink to={"/Listappointment"}>ListAppointment</NavLink>
+
                                 <div className="col-md-4 form-group">
                                     <input
                                         type="text"
@@ -168,7 +212,6 @@ function Appointment(props) {
                                     className="form-control"
                                     name="message" rows={5}
                                     placeholder="Message (Optional)"
-                                    defaultValue={""}
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.message}
@@ -177,21 +220,23 @@ function Appointment(props) {
                                 <div className="validate" />
                             </div>
                             <div>
-                                <>
-                                    <label><b>Gender:-</b></label>
-                                    <label><input type="radio" name="Gender"onBlur={handleBlur} onChange={handleChange} />Male</label>
-                                    <label><input type="radio" name="Gender" onBlur={handleBlur} onChange={handleChange}/>Female</label>
-                                    <label><input type="radio" name="Gender" onBlur={handleBlur} onChange={handleChange}/>Other</label>
 
-                                </>
+                                <label><b>Gender:-</b></label>
+                                <input type="radio" name="Gender" onBlur={handleBlur} value={"Male"} checked={values.Gender === "Male"} onChange={handleChange} />Male
+                                <input type="radio" name="Gender" onBlur={handleBlur} value={"Female"} checked={values.Gender === "Female"} onChange={handleChange} />Female
+
+
+
+
+
                                 <p>{errors.Gender && touched.Gender ? <p>{errors.Gender}</p> : ''}</p>
                             </div>
-                            <div  className="text-center">
+                            <div className="text-center">
                                 <>
-                                <label><b>Hobby:-</b></label><br />
-                                <input type="checkbox" name="Hobby" value={"Traveling"} onBlur={handleBlur} onChange={handleChange}/>Traveling
-                                <input type="checkbox" name="Hobby" value={"Reading"}onBlur={handleBlur} onChange={handleChange} />Reading
-                                <input type="checkbox" name="Hobby" value={"Music"}onBlur={handleBlur} onChange={handleChange} />Music
+                                    <label><b>Hobby:-</b></label><br />
+                                    <input type="checkbox" name="Hobby" value={"Traveling"} onBlur={handleBlur} checked={values.Hobby.some((h) => h === 'Traveling')} onChange={handleChange} />Traveling
+                                    <input type="checkbox" name="Hobby" value={"Reading"} onBlur={handleBlur} checked={values.Hobby.some((h) => h === 'Reading')} onChange={handleChange} />Reading
+                                    <input type="checkbox" name="Hobby" value={"Music"} onBlur={handleBlur} checked={values.Hobby.some((h) => h === 'Music')} onChange={handleChange} />Music
                                 </>
                                 <p>{errors.Hobby && touched.Hobby ? <p>{errors.Hobby}</p> : ''}</p>
                             </div>
@@ -200,7 +245,7 @@ function Appointment(props) {
                                 <div className="error-message" />
                                 <div className="sent-message">Your appointment request has been sent successfully. Thank you!</div>
                             </div>
-                            <div className="text-center"><button type="submit">Make an Appointment</button></div>
+                            <div className="text-center"><button type="submit">{Update ? "Update an Appointment" : "Make an Appointment"}</button></div>
                         </Form>
                     </Formik>
                 </div>
@@ -210,7 +255,7 @@ function Appointment(props) {
 
 
 
-    }
+}
 
 
 

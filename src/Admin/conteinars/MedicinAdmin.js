@@ -17,10 +17,10 @@ import { Update } from '@mui/icons-material';
 
 
 function MedicinAdmin(props) {
-  const [open, setOpen] = React.useState(false);
-  const [dopen, setdOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [dopen, setdOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [did, setdid] = React.useState(false)
+  const [did, setdid] = useState(false)
   const [update, setUpdate] = useState()
 
   const localDataFun = () => {
