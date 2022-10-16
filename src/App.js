@@ -18,6 +18,7 @@ import Layout from './Admin/componets/Layout';
 import DoctorsAdmin from './Admin/conteinars/DoctorsAdmin';
 import pesant from './conteinars/pesant/Pesant';
 import ListAppointment from './conteinars/Appointment/ListAppointment';
+import DoctorList from './conteinars/Doctors/DoctorList';
 // const HWL = Loading(Home)
  function App() {
 
@@ -61,6 +62,7 @@ import ListAppointment from './conteinars/Appointment/ListAppointment';
         <Route exact path={"/Appointment"} component={Appointment}/>
         <Route exact path={"/ListAppointment"} component={ListAppointment}/>
         <Route exact path={"/Auth"} component={Auth}/>
+        <Route exact path={"/DoctorList"} component={DoctorList}/>
         </Switch>
       <Footer />
       {/* <Layout>
